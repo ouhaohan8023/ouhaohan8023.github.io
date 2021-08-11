@@ -1,0 +1,288 @@
+<!doctype html><html lang=zh data-mode=dark>
+<head prefix="og: http://ogp.me/ns#">
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.87.0">
+<meta name=theme content="Color Your World -- gitlab.com/rmaguiar/hugo-theme-color-your-world">
+<title>Laravel实战系列（一）搭建 Formspree 多用户邮件系统 | OHHINK</title>
+<meta name=author content="OHHINK">
+<meta name=description content="Laravel实现，仿照 Formspree 搭建多用户的邮件系统，在实际编码过程中，学习Laravel">
+<meta name=robots content="index follow">
+<link rel=canonical href=https://ouhaohan8023.github.io/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%B8%80%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F/>
+<meta property="og:site_name" content="OHHINK">
+<meta property="og:title" content="Laravel实战系列（一）搭建 Formspree 多用户邮件系统">
+<meta property="og:description" content="Laravel实现，仿照 Formspree 搭建多用户的邮件系统，在实际编码过程中，学习Laravel">
+<meta property="og:url" content="https://ouhaohan8023.github.io/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%B8%80%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F/">
+<meta property="og:image" content="https://ouhaohan8023.github.io/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%B8%80%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_1200x630_fill_box_smart1_3.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Formspree.">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://ouhaohan8023.github.io/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%B8%80%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_1280x640_fill_box_smart1_3.png">
+<meta property="og:type" content="article">
+<meta name=twitter:dnt content="on">
+<meta name=theme-color content="#222">
+<meta name=apple-mobile-web-app-capable content="yes">
+<meta name=apple-mobile-web-app-status-bar-style content="default">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebSite","@id":"https:\/\/ouhaohan8023.github.io"},"headline":"Laravel实战系列（一）搭建 Formspree 多用户邮件系统","description":"Laravel实现，仿照 Formspree 搭建多用户的邮件系统，在实际编码过程中，学习Laravel","image":["https://ouhaohan8023.github.io/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%B8%80%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_1280x640_fill_box_smart1_3.png","https://ouhaohan8023.github.io/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%B8%80%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_1200x630_fill_box_smart1_3.png","https://ouhaohan8023.github.io/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%B8%80%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_1280x0_resize_box_3.png"],"url":"https:\/\/ouhaohan8023.github.io\/posts\/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%B8%80%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F\/","inLanguage":"zh","datePublished":"0001-01-01","wordCount":"1412","publisher":{"@type":"Person","name":"OHHINK"},"author":{"@type":"Person","name":"OHHINK","description":"我老婆今天怎么还没有超能力","sameAs":["https://github.com/ouhaohan8023","https://youtube.com/channel/UC4tlfgnmHVTWovrjaK4m4dg"]}}</script>
+<link rel=stylesheet href=https://ouhaohan8023.github.io/css/main.min.8e05f798b394986601b0549619b019d4fb9158b099e78d9b0070ef59a3ef192e.css integrity="sha256-jgX3mLOUmGYBsFSWGbAZ1PuRWLCZ542bAHDvWaPvGS4=" crossorigin=anonymous>
+<noscript>
+<meta name=theme-color content="#1dbc91">
+<link rel=stylesheet href=https://ouhaohan8023.github.io/css/noscript.min.3f3b95436b19eaeb9223fb12c0b86737d53ee0a47fdba271a886c244bc03975c.css integrity="sha256-PzuVQ2sZ6uuSI/sSwLhnN9U+4KR/26JxqIbCRLwDl1w=" crossorigin=anonymous>
+</noscript>
+<link rel=preload href=/fonts/open-sans-v17-latin-700.woff2 as=font crossorigin=anonymous>
+<link rel=preload href=/fonts/open-sans-v17-latin-italic.woff2 as=font crossorigin=anonymous>
+<link rel=preload href=/fonts/open-sans-v17-latin-regular.woff2 as=font crossorigin=anonymous>
+<link rel=preload href=/fonts/oswald-v29-latin-700.woff2 as=font crossorigin=anonymous>
+<link rel=me href=https://github.com/ouhaohan8023>
+<link rel=me href=https://youtube.com/channel/UC4tlfgnmHVTWovrjaK4m4dg>
+<script src=https://ouhaohan8023.github.io/js/main.min.00d339d5aeb733dd5a83c4a3e1d10bd01f289901161411588270336b492cdbd2.js integrity="sha256-ANM51a63M91ag8Sj4dEL0B8omQEWFBFYgnAza0ks29I=" crossorigin=anonymous></script>
+</head>
+<body>
+<header>
+<a href=/>OHHINK</a>
+<nav aria-label=主菜单>
+<ul>
+<li>
+<a class=btn href=/>关于我</a>
+</li>
+<li>
+<a class=btn href=/posts/>文章</a>
+</li>
+<li>
+<a class=btn href=/tools/>工具教程</a>
+</li>
+<li>
+<a class=btn href=/contact/>联系我</a>
+</li>
+</ul>
+</nav>
+</header>
+<div class=filler>
+<main>
+<article>
+<header>
+<h1>Laravel实战系列（一）搭建 Formspree 多用户邮件系统</h1>
+<section class=terms>
+<ul><li><a class=btn href=/tags/formspree/>Formspree</a></li><li><a class=btn href=/tags/laravel/>Laravel</a></li><li><a class=btn href=/tags/php/>PHP</a></li><li><a class=btn href=/tags/%E5%AE%9E%E6%88%98/>实战</a></li></ul>
+</section>
+<img class=cover loading=lazy srcset="/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%B8%80%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_1280x0_resize_box_3.png 1280w, /posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%B8%80%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_640x0_resize_q90_box_3.png 640w, /posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%B8%80%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_960x0_resize_box_3.png 960w" src=/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E4%B8%80%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_960x0_resize_box_3.png width=960 height=599 alt=Formspree.>
+</header>
+<details class=toc open>
+<summary class=outline-dashed>
+内容
+</summary>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#前言>前言</a></li>
+<li><a href=#正文>正文</a>
+<ul>
+<li><a href=#开发环境>开发环境</a></li>
+<li><a href=#创建项目>创建项目</a></li>
+<li><a href=#引入官方api认证拓展包>引入官方API认证拓展包</a></li>
+<li><a href=#初始化用户>初始化用户</a></li>
+<li><a href=#编写接口登陆逻辑>编写接口登陆逻辑</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</details>
+<h2 id=前言><a class=anchor href=#前言 title="作者: 前言."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 前言</h2>
+<p>Linux之父，贼爱骂人的 Linus Torvalds 曾经说过一句话，我深以为然</p>
+<blockquote>
+<p><em>&ldquo;Talk is Cheap, Show Me The Code. &ldquo;</em></p>
+<p><em>&ldquo;屁话少说，放码过来 &ldquo;</em></p>
+<p><strong>— Linus Torvalds</strong><sup id=fnref:1><a href=#fn:1 class=footnote-ref title="See footnotes." role=doc-noteref>1</a></sup></p>
+</blockquote>
+<p>所以，从本章开始，我们通过实战项目，来熟悉和了解 Laravel 框架的运作方式以及实际运行过程中会使用到的工具和碰到的问题。</p>
+<p>我们要做的项目为：仿照 Formspree 搭建一套多用户的邮件发送系统</p>
+<p>项目背景：自网络诞生以来，邮件收发一直是避不开的话题。无论是个人站长还是系统服务提供商，邮件发送功能，是一个必要的与客户沟通的桥梁。目前邮件发送功能，主要基于后端实现。
+针对个人站长、博客主、尤其是Hugo、Hexo等纯Html的前端项目来说，为了一个邮件收发服务，独立去部署维护一套后端代码，未免有点"杀鸡用牛刀"了。
+国外的 Formspree 公司针对这个需求，在2015年左右，推出了 Formspree 项目。
+该项目实现了前端用户只需将form表单的提交地址指定为 Formspree 的接口地址，即可实现邮件通知功能。</p>
+<p>项目优点：Form 提交免费</p>
+<p>项目缺点：Form 提交无法指定跳转页面，可采用 Ajax 提交，但 Ajax 提交需要付费会员。另外 Form 提交有限制，单月 50 封邮件</p>
+<p>项目营利点：付费会员</p>
+<p>本项目构成：Laravel后端 + VueJs前端</p>
+<h2 id=正文><a class=anchor href=#正文 title="作者: 正文."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 正文</h2>
+<h3 id=开发环境><a class=anchor href=#开发环境 title="作者: 开发环境."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 开发环境</h3>
+<p>强烈建议使用 Homestead 作为你的开发环境。以免因为环境问题，从入门到弃坑。</p>
+<ol>
+<li>Homestead</li>
+<li>Laravel 8.0+</li>
+<li>PHP 8.0 +</li>
+<li>Mysql 8.0 +</li>
+</ol>
+<p>推荐：</p>
+<p><a href=https://www.bilibili.com/video/BV1d44y127oi/>Homestead环境搭建教程</a></p>
+<p><a href=https://laravel.com/docs/8.x/homestead>Homestead官方介绍</a></p>
+<h3 id=创建项目><a class=anchor href=#创建项目 title="作者: 创建项目."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 创建项目</h3>
+<p>提前在配置文件中 Homestead.yaml 做好文件映射，然后进入 Homestead 虚拟机，创建项目</p>
+<p>Homestead.yaml 配置文件映射和 Nginx</p>
+<div class=highlight><div aria-label="Box containing code sample." tabindex=0 class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>folders</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span>- <span class=nt>map</span><span class=p>:</span><span class=w> </span><span class=l>~/Codes/formspree</span><span class=w>
+</span><span class=w>      </span><span class=nt>to</span><span class=p>:</span><span class=w> </span><span class=l>/home/vagrant/formspree</span><span class=w>
+</span><span class=w>
+</span><span class=w></span><span class=nt>sites</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span>- <span class=nt>map</span><span class=p>:</span><span class=w> </span><span class=l>api.formspree.test</span><span class=w>
+</span><span class=w>      </span><span class=nt>to</span><span class=p>:</span><span class=w> </span><span class=l>/home/vagrant/formspree/public</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>hosts 配置域名本地解析</p>
+<div class=highlight><div aria-label="Box containing code sample." tabindex=0 class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>20
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=m>192.168.10.10</span><span class=w>   </span><span class=l>api.formspree.test</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>配置 .env 文件</p>
+<div class=highlight><div aria-label="Box containing code sample." tabindex=0 class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=l>DB_CONNECTION=mysql</span><span class=w>
+</span><span class=w></span><span class=l>DB_HOST=127.0.0.1</span><span class=w>
+</span><span class=w></span><span class=l>DB_PORT=3306</span><span class=w>
+</span><span class=w></span><span class=l>DB_DATABASE=formspree</span><span class=w>
+</span><span class=w></span><span class=l>DB_USERNAME=homestead</span><span class=w>
+</span><span class=w></span><span class=l>DB_PASSWORD=secret</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>创建数据库</p>
+<div class=highlight><pre aria-label="Box containing code sample." tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=k>CREATE</span><span class=w> </span><span class=k>DATABASE</span><span class=w> </span><span class=n>test1</span><span class=w> </span><span class=k>default</span><span class=w> </span><span class=nb>character</span><span class=w> </span><span class=k>set</span><span class=w> </span><span class=n>utf8mb4</span><span class=w> </span><span class=k>collate</span><span class=w> </span><span class=n>utf8mb4_general_ci</span><span class=p>;</span><span class=w>
+</span></code></pre></div>
+<h3 id=引入官方api认证拓展包><a class=anchor href=#引入官方api认证拓展包 title="作者: 引入官方API认证拓展包."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 引入官方API认证拓展包</h3>
+<p>引入拓展包</p>
+<div class=highlight><pre aria-label="Box containing code sample." tabindex=0 class=chroma><code class=language-bash data-lang=bash>composer require laravel/sanctum
+</code></pre></div><p>发布配置文件</p>
+<div class=highlight><pre aria-label="Box containing code sample." tabindex=0 class=chroma><code class=language-bash data-lang=bash>php artisan vendor:publish --provider<span class=o>=</span><span class=s2>&#34;Laravel\Sanctum\SanctumServiceProvider&#34;</span>
+</code></pre></div><p>执行迁移</p>
+<div class=highlight><pre aria-label="Box containing code sample." tabindex=0 class=chroma><code class=language-bash data-lang=bash>php artisan migrate
+</code></pre></div>
+<h3 id=初始化用户><a class=anchor href=#初始化用户 title="作者: 初始化用户."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 初始化用户</h3>
+<p>修改 database/seeders/DatabaseSeeder.php</p>
+<div class=highlight><div aria-label="Box containing code sample." tabindex=0 class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=hl><span class=lnt>16
+</span></span><span class=lnt>17
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=sd>/**
+</span><span class=sd> * Seed the application&#39;s database.
+</span><span class=sd> *
+</span><span class=sd> * @return void
+</span><span class=sd> */</span>
+<span class=k>public</span> <span class=k>function</span> <span class=nf>run</span><span class=p>()</span>
+<span class=p>{</span>
+<span class=hl>     <span class=nx>\App\Models\User</span><span class=o>::</span><span class=na>factory</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>create</span><span class=p>();</span>
+</span><span class=p>}</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>执行数据填充</p>
+<div class=highlight><pre aria-label="Box containing code sample." tabindex=0 class=chroma><code class=language-bash data-lang=bash>php artisan db:seed
+</code></pre></div><p>执行结果</p>
+<div class=highlight><pre aria-label="Box containing code sample." tabindex=0 class=chroma><code class=language-sql data-lang=sql><span class=n>mysql</span><span class=o>&gt;</span><span class=w> </span><span class=k>select</span><span class=w> </span><span class=o>*</span><span class=w> </span><span class=k>from</span><span class=w> </span><span class=n>users</span><span class=w> </span><span class=err>\</span><span class=k>G</span><span class=w>
+</span><span class=w></span><span class=o>***************************</span><span class=w> </span><span class=mi>1</span><span class=p>.</span><span class=w> </span><span class=k>row</span><span class=w> </span><span class=o>***************************</span><span class=w>
+</span><span class=w>               </span><span class=n>id</span><span class=p>:</span><span class=w> </span><span class=mi>1</span><span class=w>
+</span><span class=w>             </span><span class=n>name</span><span class=p>:</span><span class=w> </span><span class=err>管理员</span><span class=w>
+</span><span class=w>            </span><span class=n>email</span><span class=p>:</span><span class=w> </span><span class=k>admin</span><span class=o>@</span><span class=n>example</span><span class=p>.</span><span class=n>com</span><span class=w>
+</span><span class=w></span><span class=n>email_verified_at</span><span class=p>:</span><span class=w> </span><span class=mi>2021</span><span class=o>-</span><span class=mi>08</span><span class=o>-</span><span class=mi>10</span><span class=w> </span><span class=mi>15</span><span class=p>:</span><span class=mi>06</span><span class=p>:</span><span class=mi>11</span><span class=w>
+</span><span class=w>         </span><span class=n>password</span><span class=p>:</span><span class=w> </span><span class=err>$</span><span class=mi>2</span><span class=n>y$10$92IXUNpkjO0rOQ5byMi</span><span class=p>.</span><span class=n>Ye4oKoEa3Ro9llC</span><span class=o>/</span><span class=p>.</span><span class=n>og</span><span class=o>/</span><span class=n>at2</span><span class=p>.</span><span class=n>uheWG</span><span class=o>/</span><span class=n>igi</span><span class=w>
+</span><span class=w>   </span><span class=n>remember_token</span><span class=p>:</span><span class=w> </span><span class=n>oeIyjodbeC</span><span class=w>
+</span><span class=w>       </span><span class=n>created_at</span><span class=p>:</span><span class=w> </span><span class=mi>2021</span><span class=o>-</span><span class=mi>08</span><span class=o>-</span><span class=mi>10</span><span class=w> </span><span class=mi>15</span><span class=p>:</span><span class=mi>06</span><span class=p>:</span><span class=mi>11</span><span class=w>
+</span><span class=w>       </span><span class=n>updated_at</span><span class=p>:</span><span class=w> </span><span class=mi>2021</span><span class=o>-</span><span class=mi>08</span><span class=o>-</span><span class=mi>10</span><span class=w> </span><span class=mi>15</span><span class=p>:</span><span class=mi>06</span><span class=p>:</span><span class=mi>11</span><span class=w>
+</span><span class=w></span><span class=o>***************************</span><span class=w> </span><span class=mi>2</span><span class=p>.</span><span class=w> </span><span class=k>row</span><span class=w> </span><span class=o>***************************</span><span class=w>
+</span><span class=w>               </span><span class=n>id</span><span class=p>:</span><span class=w> </span><span class=mi>2</span><span class=w>
+</span><span class=w>             </span><span class=n>name</span><span class=p>:</span><span class=w> </span><span class=err>荆杨</span><span class=w>
+</span><span class=w>            </span><span class=n>email</span><span class=p>:</span><span class=w> </span><span class=n>user1</span><span class=o>@</span><span class=n>example</span><span class=p>.</span><span class=n>com</span><span class=w>
+</span><span class=w></span><span class=n>email_verified_at</span><span class=p>:</span><span class=w> </span><span class=mi>2021</span><span class=o>-</span><span class=mi>08</span><span class=o>-</span><span class=mi>10</span><span class=w> </span><span class=mi>15</span><span class=p>:</span><span class=mi>06</span><span class=p>:</span><span class=mi>11</span><span class=w>
+</span><span class=w>         </span><span class=n>password</span><span class=p>:</span><span class=w> </span><span class=err>$</span><span class=mi>2</span><span class=n>y$10$92IXUNpkjO0rOQ5byMi</span><span class=p>.</span><span class=n>Ye4oKoEa3Ro9llC</span><span class=o>/</span><span class=p>.</span><span class=n>og</span><span class=o>/</span><span class=n>at2</span><span class=p>.</span><span class=n>uheWG</span><span class=o>/</span><span class=n>igi</span><span class=w>
+</span><span class=w>   </span><span class=n>remember_token</span><span class=p>:</span><span class=w> </span><span class=n>jlOsHJpF8R</span><span class=w>
+</span><span class=w>       </span><span class=n>created_at</span><span class=p>:</span><span class=w> </span><span class=mi>2021</span><span class=o>-</span><span class=mi>08</span><span class=o>-</span><span class=mi>10</span><span class=w> </span><span class=mi>15</span><span class=p>:</span><span class=mi>06</span><span class=p>:</span><span class=mi>11</span><span class=w>
+</span><span class=w>       </span><span class=n>updated_at</span><span class=p>:</span><span class=w> </span><span class=mi>2021</span><span class=o>-</span><span class=mi>08</span><span class=o>-</span><span class=mi>10</span><span class=w> </span><span class=mi>15</span><span class=p>:</span><span class=mi>06</span><span class=p>:</span><span class=mi>11</span><span class=w>
+</span><span class=w></span><span class=mi>2</span><span class=w> </span><span class=k>rows</span><span class=w> </span><span class=k>in</span><span class=w> </span><span class=k>set</span><span class=w> </span><span class=p>(</span><span class=mi>0</span><span class=p>.</span><span class=mi>00</span><span class=w> </span><span class=n>sec</span><span class=p>)</span><span class=w>
+</span></code></pre></div>
+<h3 id=编写接口登陆逻辑><a class=anchor href=#编写接口登陆逻辑 title="作者: 编写接口登陆逻辑."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 编写接口登陆逻辑</h3>
+<p>创建登陆控制器</p>
+<div class=highlight><pre aria-label="Box containing code sample." tabindex=0 class=chroma><code class=language-bash data-lang=bash>php artisan make:controller LoginController
+</code></pre></div><p>在登陆控制器中写登陆的方法</p>
+<div class=highlight><div aria-label="Box containing code sample." tabindex=0 class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=hl><span class=lnt>16
+</span></span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-php data-lang=php>    <span class=k>public</span> <span class=k>function</span> <span class=nf>index</span><span class=p>(</span><span class=nx>Request</span> <span class=nv>$request</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=nv>$validatedData</span> <span class=o>=</span> <span class=nv>$request</span><span class=o>-&gt;</span><span class=na>validate</span><span class=p>([</span>
+            <span class=s1>&#39;email&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required|exists:users&#39;</span><span class=p>,</span>
+            <span class=s1>&#39;password&#39;</span> <span class=o>=&gt;</span> <span class=s1>&#39;required&#39;</span><span class=p>,</span>
+        <span class=p>]);</span>
+        <span class=nx>dd</span><span class=p>(</span><span class=mi>1</span><span class=p>);</span>
+<span class=hl>    <span class=p>}</span></span></code></pre></td></tr></table>
+</div>
+</div>
+<p>在 /routes/api.php 中创建登陆路由</p>
+<div class=highlight><div aria-label="Box containing code sample." tabindex=0 class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>22
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=nx>Route</span><span class=o>::</span><span class=na>post</span><span class=p>(</span><span class=s2>&#34;/login&#34;</span><span class=p>,</span> <span class=p>[</span><span class=nx>LoginController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;index&#39;</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>name</span><span class=p>(</span><span class=s2>&#34;login&#34;</span><span class=p>);</span></code></pre></td></tr></table>
+</div>
+</div>
+<p>使用 Postman 进行登陆</p>
+<section class=footnotes role=doc-endnotes><h2>References</h2>
+<hr>
+<ol>
+<li id=fn:1 role=doc-endnote>
+<p><a href=https://github.com/torvalds><em>&ldquo;Linus Torvalds&rdquo;</em></a>&#160;<a href=#fnref:1 class=footnote-backref title="Return to text." role=doc-backlink><svg transform="rotate(180) translate(0 -1)" aria-hidden="true"><use xlink:href="#caret-down"/></svg></a></p>
+</li>
+</ol>
+</section>
+</article>
+</main>
+</div>
+<footer>
+<p>基于 <a href=https://gohugo.io>Hugo</a> 搭建，使用 <a href=https://gitlab.com/rmaguiar/hugo-theme-color-your-world>Color Your World</a> 主题</p>
+<section class=req-js>
+<button class=outline-dashed title="更换 白天/夜间 模式"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><use xlink:href="#adjust"/></svg></button><input class=outline-dashed type=color list=presets value=#1dbc91 title=更换颜色 aria-label=更换颜色><datalist id=presets><option value=#1f676b><option value=#1dbc91><option value=#225670><option value=#dd587c><option value=#902b37><option value=#f3a530><option value=#754e85><option value=#7fc121><option value=#a8314a><option value=#ff7433><option value=#3e6728><option value=#c063bd></datalist>
+</section>
+<noscript>
+<p class=noscript>无法执行 JavaScript，一些功能被禁止</p>
+</noscript>
+</footer><svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true"><symbol viewBox="0 0 512 512" id="adjust"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></symbol><symbol viewBox="0 0 448 512" id="hashtag"><path d="M440.667 182.109l7.143-40c1.313-7.355-4.342-14.109-11.813-14.109h-74.81l14.623-81.891C377.123 38.754 371.468 32 363.997 32h-40.632a12 12 0 00-11.813 9.891L296.175 128H197.54l14.623-81.891C213.477 38.754 207.822 32 200.35 32h-40.632a12 12 0 00-11.813 9.891L132.528 128H53.432a12 12 0 00-11.813 9.891l-7.143 40C33.163 185.246 38.818 192 46.289 192h74.81L98.242 320H19.146a12 12 0 00-11.813 9.891l-7.143 40C-1.123 377.246 4.532 384 12.003 384h74.81L72.19 465.891C70.877 473.246 76.532 480 84.003 480h40.632a12 12 0 0011.813-9.891L151.826 384h98.634l-14.623 81.891C234.523 473.246 240.178 480 247.65 480h40.632a12 12 0 0011.813-9.891L315.472 384h79.096a12 12 0 0011.813-9.891l7.143-40c1.313-7.355-4.342-14.109-11.813-14.109h-74.81l22.857-128h79.096a12 12 0 0011.813-9.891zM261.889 320h-98.634l22.857-128h98.634l-22.857 128z"/></symbol><symbol viewBox="0 0 320 512" id="caret-down"><path d="M31.3 192h257.3c17.8.0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3.0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"/></symbol></svg>
+</body>
+</html>
