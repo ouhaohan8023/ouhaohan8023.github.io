@@ -1,0 +1,265 @@
+<!doctype html><html lang=zh data-mode=dark>
+<head prefix="og: http://ogp.me/ns#">
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.87.0">
+<meta name=theme content="Color Your World -- gitlab.com/rmaguiar/hugo-theme-color-your-world">
+<title>Laravel实战系列——搭建 Formspree 多用户邮件系统（二） | OHHINK</title>
+<meta name=author content="OHHINK">
+<meta name=description content="Laravel实现，仿照 Formspree 搭建多用户的邮件系统，在实际编码过程中，学习Laravel">
+<meta name=robots content="index follow">
+<link rel=canonical href=https://ouhaohan8023.github.io/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/>
+<meta property="og:site_name" content="OHHINK">
+<meta property="og:title" content="Laravel实战系列——搭建 Formspree 多用户邮件系统（二）">
+<meta property="og:description" content="Laravel实现，仿照 Formspree 搭建多用户的邮件系统，在实际编码过程中，学习Laravel">
+<meta property="og:url" content="https://ouhaohan8023.github.io/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/">
+<meta property="og:image" content="https://ouhaohan8023.github.io/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_1200x630_fill_box_smart1_3.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Formspree.">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://ouhaohan8023.github.io/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_1280x640_fill_box_smart1_3.png">
+<meta property="og:type" content="article">
+<meta name=twitter:dnt content="on">
+<meta name=theme-color content="#222">
+<meta name=apple-mobile-web-app-capable content="yes">
+<meta name=apple-mobile-web-app-status-bar-style content="default">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebSite","@id":"https:\/\/ouhaohan8023.github.io"},"headline":"Laravel实战系列——搭建 Formspree 多用户邮件系统（二）","description":"Laravel实现，仿照 Formspree 搭建多用户的邮件系统，在实际编码过程中，学习Laravel","image":["https://ouhaohan8023.github.io/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_1280x640_fill_box_smart1_3.png","https://ouhaohan8023.github.io/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_1200x630_fill_box_smart1_3.png","https://ouhaohan8023.github.io/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_1280x0_resize_box_3.png"],"url":"https:\/\/ouhaohan8023.github.io\/posts\/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C\/","inLanguage":"zh","datePublished":"0001-01-01","wordCount":"632","publisher":{"@type":"Person","name":"OHHINK"},"author":{"@type":"Person","name":"OHHINK","description":"我老婆今天怎么还没有超能力","sameAs":["https://github.com/ouhaohan8023","https://youtube.com/channel/UC4tlfgnmHVTWovrjaK4m4dg"]}}</script>
+<link rel=stylesheet href=https://ouhaohan8023.github.io/css/main.min.f2e728a85bff731994a741c87cc3d4de2083a13a700d99f06c2068cf483eba27.css integrity="sha256-8ucoqFv/cxmUp0HIfMPU3iCDoTpwDZnwbCBoz0g+uic=" crossorigin=anonymous>
+<noscript>
+<meta name=theme-color content="#1dbc91">
+<link rel=stylesheet href=https://ouhaohan8023.github.io/css/noscript.min.3f3b95436b19eaeb9223fb12c0b86737d53ee0a47fdba271a886c244bc03975c.css integrity="sha256-PzuVQ2sZ6uuSI/sSwLhnN9U+4KR/26JxqIbCRLwDl1w=" crossorigin=anonymous>
+</noscript>
+<link rel=preload href=/fonts/open-sans-v17-latin-700.woff2 as=font crossorigin=anonymous>
+<link rel=preload href=/fonts/open-sans-v17-latin-italic.woff2 as=font crossorigin=anonymous>
+<link rel=preload href=/fonts/open-sans-v17-latin-regular.woff2 as=font crossorigin=anonymous>
+<link rel=preload href=/fonts/oswald-v29-latin-700.woff2 as=font crossorigin=anonymous>
+<link rel=me href=https://github.com/ouhaohan8023>
+<link rel=me href=https://youtube.com/channel/UC4tlfgnmHVTWovrjaK4m4dg>
+<script src=https://ouhaohan8023.github.io/js/main.min.00d339d5aeb733dd5a83c4a3e1d10bd01f289901161411588270336b492cdbd2.js integrity="sha256-ANM51a63M91ag8Sj4dEL0B8omQEWFBFYgnAza0ks29I=" crossorigin=anonymous></script>
+</head>
+<body>
+<header>
+<a href=/>OHHINK</a>
+<nav aria-label=主菜单>
+<ul>
+<li>
+<a class=btn href=/>关于我</a>
+</li>
+<li>
+<a class=btn href=/posts/>文章</a>
+</li>
+<li>
+<a class=btn href=/tools/>工具教程</a>
+</li>
+<li>
+<a class=btn href=/contact/>联系我</a>
+</li>
+</ul>
+</nav>
+</header>
+<div class=filler>
+<main>
+<article>
+<header>
+<h1>Laravel实战系列——搭建 Formspree 多用户邮件系统（二）</h1>
+<section class=terms>
+<ul><li><a class=btn href=/tags/formspree/>Formspree</a></li><li><a class=btn href=/tags/laravel/>Laravel</a></li><li><a class=btn href=/tags/php/>PHP</a></li><li><a class=btn href=/tags/%E5%AE%9E%E6%88%98/>实战</a></li></ul>
+</section>
+<img class=cover loading=lazy srcset="/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_1280x0_resize_box_3.png 1280w, /posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_640x0_resize_q90_box_3.png 640w, /posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_960x0_resize_box_3.png 960w" src=/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/img/formspree_hu5ff9439c4cd47aad82234da7273c8ce0_244986_960x0_resize_box_3.png width=960 height=599 alt=Formspree.>
+</header>
+<details class=toc open>
+<summary class=outline-dashed>
+内容
+</summary>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#前言>前言</a></li>
+<li><a href=#正文>正文</a>
+<ul>
+<li><a href=#创建一个邮箱并开启smtp>创建一个邮箱并开启SMTP</a></li>
+<li><a href=#给项目配置邮件参数>给项目配置邮件参数</a></li>
+<li><a href=#创建邮件发送类>创建邮件发送类</a></li>
+<li><a href=#创建邮件发送控制器>创建邮件发送控制器</a></li>
+<li><a href=#创建邮件发送路由>创建邮件发送路由</a></li>
+<li><a href=#访问路由并查看邮箱>访问路由并查看邮箱</a></li>
+</ul>
+</li>
+<li><a href=#总结>总结</a></li>
+</ul>
+</nav>
+</details>
+<h2 id=前言><a class=anchor href=#前言 title="作者: 前言."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 前言</h2>
+<p>在上一章，我们新建了一个项目，并初步实现了登陆功能，成功迈出登月第一步。</p>
+<p><a href=/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%B8%80/>Laravel实战系列——搭建 Formspree 多用户邮件系统（一）</a></p>
+<p>在这一章，按照王爸爸的说法，先定一个小目标——我们将要实现简单的邮件发送功能及接口</p>
+<blockquote>
+<p><em>&ldquo;想做世界首富，这个奋斗的方向是对的，但是最好先定一个能达到的小目标，比如我先挣它1个亿。"</em></p>
+<p><strong>— 王健林</strong><sup id=fnref:1><a href=#fn:1 class=footnote-ref title="See footnotes." role=doc-noteref>1</a></sup></p>
+</blockquote>
+<h2 id=正文><a class=anchor href=#正文 title="作者: 正文."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 正文</h2>
+<h3 id=创建一个邮箱并开启smtp><a class=anchor href=#创建一个邮箱并开启smtp title="作者: 创建一个邮箱并开启SMTP."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 创建一个邮箱并开启SMTP</h3>
+<p>此处，我选择了 <a href=https://mail.163.com/>163网易</a> 邮箱，注册好之后，记得开启 <a href="https://help.mail.163.com/faqDetail.do?code=d7a5dc8471cd0c0e8b4b8f4f8e49998b374173cfe9171305fa1ce630d7f67ac21b87735d7227c217">SMTP服务</a> 。</p>
+<p>
+<img loading=lazy srcset="/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/img/163mail_hu85d957fead89f56fcade99581338aa58_406978_1280x0_resize_box_3.png 1280w, /posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/img/163mail_hu85d957fead89f56fcade99581338aa58_406978_640x0_resize_q90_box_3.png 640w, /posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/img/163mail_hu85d957fead89f56fcade99581338aa58_406978_960x0_resize_box_3.png 960w" src=/posts/laravel%E5%AE%9E%E6%88%98%E7%B3%BB%E5%88%97%E6%90%AD%E5%BB%BA-formspree-%E5%A4%9A%E7%A7%9F%E6%88%B7%E9%82%AE%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BA%8C/img/163mail_hu85d957fead89f56fcade99581338aa58_406978_960x0_resize_box_3.png width=960 height=548 alt=163mail>
+</p>
+<h3 id=给项目配置邮件参数><a class=anchor href=#给项目配置邮件参数 title="作者: 给项目配置邮件参数."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 给项目配置邮件参数</h3>
+<p>配置 /.env</p>
+<div class=highlight><div aria-label="Box containing code sample." tabindex=0 class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=nx>MAIL_MAILER</span><span class=o>=</span><span class=nx>smtp</span>
+<span class=nx>MAIL_HOST</span><span class=o>=</span><span class=nx>smtp</span><span class=o>.</span><span class=mf>163.</span><span class=nx>com</span>
+<span class=nx>MAIL_PORT</span><span class=o>=</span><span class=mi>465</span>
+<span class=nx>MAIL_USERNAME</span><span class=o>=</span><span class=nx>xx</span><span class=o>@</span><span class=mf>163.</span><span class=nx>com</span>  <span class=c1># 你创建的邮箱
+</span><span class=c1></span><span class=nx>MAIL_PASSWORD</span><span class=o>=</span><span class=nx>RIPDZIZIQRMHZVAO</span> <span class=c1># 开启 SMTP 后生成的密钥
+</span><span class=c1></span><span class=nx>MAIL_ENCRYPTION</span><span class=o>=</span><span class=nx>ssl</span>
+<span class=nx>MAIL_FROM_ADDRESS</span><span class=o>=</span><span class=nx>xx</span><span class=o>@</span><span class=mf>163.</span><span class=nx>com</span> <span class=c1># 你创建的邮箱
+</span><span class=c1></span><span class=nx>MAIL_FROM_NAME</span><span class=o>=</span><span class=s2>&#34;</span><span class=si>${</span><span class=nv>APP_NAME</span><span class=si>}</span><span class=s2>&#34;</span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id=创建邮件发送类><a class=anchor href=#创建邮件发送类 title="作者: 创建邮件发送类."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 创建邮件发送类</h3>
+<p>都2021年了，我们还是使用Markdown作为模版吧</p>
+<div class=highlight><pre aria-label="Box containing code sample." tabindex=0 class=chroma><code class=language-bash data-lang=bash>php artisan make:mail CustomerMail --markdown<span class=o>=</span>emails.customer
+</code></pre></div><p>修改 /app/Mail/CustomerMail.php</p>
+<div class=highlight><div aria-label="Box containing code sample." tabindex=0 class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=k>protected</span> <span class=nv>$msg</span><span class=p>;</span>
+
+<span class=sd>/**
+</span><span class=sd> * CustomerMail constructor.
+</span><span class=sd> * @param string $msg
+</span><span class=sd> */</span>
+<span class=k>public</span> <span class=k>function</span> <span class=fm>__construct</span><span class=p>(</span><span class=nx>string</span> <span class=nv>$msg</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>msg</span> <span class=o>=</span> <span class=nv>$msg</span><span class=p>;</span>
+<span class=p>}</span>
+
+<span class=sd>/**
+</span><span class=sd> * Build the message.
+</span><span class=sd> *
+</span><span class=sd> * @return $this
+</span><span class=sd> */</span>
+<span class=k>public</span> <span class=k>function</span> <span class=nf>build</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=k>return</span> <span class=nv>$this</span>
+        <span class=o>-&gt;</span><span class=na>markdown</span><span class=p>(</span><span class=s1>&#39;emails.customer&#39;</span><span class=p>)</span>
+        <span class=o>-&gt;</span><span class=na>with</span><span class=p>([</span>
+            <span class=s1>&#39;url&#39;</span> <span class=o>=&gt;</span> <span class=s2>&#34;https://ouhaohan8023.github.io&#34;</span><span class=p>,</span>
+            <span class=s1>&#39;msg&#39;</span> <span class=o>=&gt;</span> <span class=nv>$this</span><span class=o>-&gt;</span><span class=na>msg</span><span class=p>,</span>
+        <span class=p>]);</span>
+<span class=p>}</span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id=创建邮件发送控制器><a class=anchor href=#创建邮件发送控制器 title="作者: 创建邮件发送控制器."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 创建邮件发送控制器</h3>
+<div class=highlight><pre aria-label="Box containing code sample." tabindex=0 class=chroma><code class=language-bash data-lang=bash>php artisan make:controller CustomerMailController
+</code></pre></div><p>修改 app/Http/Controllers/CustomerMailController.php 控制器</p>
+<div class=highlight><div aria-label="Box containing code sample." tabindex=0 class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=k>class</span> <span class=nc>CustomerMailController</span> <span class=k>extends</span> <span class=nx>Controller</span>
+<span class=p>{</span>
+    <span class=k>public</span> <span class=k>function</span> <span class=nf>test</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=nv>$email</span> <span class=o>=</span> <span class=s2>&#34;xx@foxmail.com&#34;</span><span class=p>;</span> <span class=c1>// 接收邮件的地址
+</span><span class=c1></span>        <span class=nv>$msg</span> <span class=o>=</span> <span class=s2>&#34;你好鸭！&#34;</span><span class=p>;</span>
+        <span class=nx>Mail</span><span class=o>::</span><span class=na>to</span><span class=p>(</span><span class=nv>$email</span><span class=p>)</span><span class=o>-&gt;</span><span class=na>send</span><span class=p>(</span><span class=k>new</span> <span class=nx>CustomerMail</span><span class=p>(</span><span class=nv>$msg</span><span class=p>));</span>
+    <span class=p>}</span>
+<span class=p>}</span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id=创建邮件发送路由><a class=anchor href=#创建邮件发送路由 title="作者: 创建邮件发送路由."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 创建邮件发送路由</h3>
+<p>修改 /routes/api.php</p>
+<div class=highlight><div aria-label="Box containing code sample." tabindex=0 class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>20
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-php data-lang=php><span class=nx>Route</span><span class=o>::</span><span class=na>get</span><span class=p>(</span><span class=s2>&#34;/test&#34;</span><span class=p>,</span> <span class=p>[</span><span class=nx>CustomerMailController</span><span class=o>::</span><span class=na>class</span><span class=p>,</span> <span class=s1>&#39;test&#39;</span><span class=p>])</span><span class=o>-&gt;</span><span class=na>name</span><span class=p>(</span><span class=s2>&#34;test&#34;</span><span class=p>);</span></code></pre></td></tr></table>
+</div>
+</div>
+<h3 id=访问路由并查看邮箱><a class=anchor href=#访问路由并查看邮箱 title="作者: 访问路由并查看邮箱."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 访问路由并查看邮箱</h3>
+<p>浏览器访问地址</p>
+<div class=highlight><pre aria-label="Box containing code sample." tabindex=0 class=chroma><code class=language-php data-lang=php><span class=nx>http</span><span class=o>://</span><span class=nx>api</span><span class=o>.</span><span class=nx>formspree</span><span class=o>.</span><span class=nx>test</span><span class=o>/</span><span class=nx>api</span><span class=o>/</span><span class=nx>test</span>
+</code></pre></div><p>登陆邮箱 <a href=mailto:xx@foxmail.com>xx@foxmail.com</a> 查看来自于 <a href=mailto:xx@163.com>xx@163.com</a> 的邮件</p>
+<p>至此，邮件发送功能初步成功</p>
+<h2 id=总结><a class=anchor href=#总结 title="作者: 总结."><svg aria-hidden="true"><use xlink:href="#hashtag"/></svg></a> 总结</h2>
+<p>上面我们通过 <a href=https://laravel.com/>Laravel</a> 简单的实现了邮件发送功能</p>
+<ol>
+<li>使用 <a href=https://laravel.com/docs/8.x/mail>Laravel Mail</a> 邮件</li>
+</ol>
+<p>下一步我们要实现一个闭环</p>
+<ol>
+<li>用户注册，生成唯一的表单提交地址</li>
+<li>通过form表单提交内容</li>
+<li>接收到内容，识别用户</li>
+<li>给用户发送通知邮件</li>
+</ol>
+<section class=footnotes role=doc-endnotes><h2>References</h2>
+<hr>
+<ol>
+<li id=fn:1 role=doc-endnote>
+<p><a href=https://baike.baidu.com/item/%E7%8E%8B%E5%81%A5%E6%9E%97/1065126><em>&ldquo;王健林&rdquo;</em></a>&#160;<a href=#fnref:1 class=footnote-backref title="Return to text." role=doc-backlink><svg transform="rotate(180) translate(0 -1)" aria-hidden="true"><use xlink:href="#caret-down"/></svg></a></p>
+</li>
+</ol>
+</section>
+</article>
+</main>
+</div>
+<footer>
+<p>基于 <a href=https://gohugo.io>Hugo</a> 搭建，使用 <a href=https://gitlab.com/rmaguiar/hugo-theme-color-your-world>Color Your World</a> 主题</p>
+<section class=req-js>
+<button class=outline-dashed title="更换 白天/夜间 模式"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><use xlink:href="#adjust"/></svg></button><input class=outline-dashed type=color list=presets value=#1dbc91 title=更换颜色 aria-label=更换颜色><datalist id=presets><option value=#1f676b><option value=#1dbc91><option value=#225670><option value=#dd587c><option value=#902b37><option value=#f3a530><option value=#754e85><option value=#7fc121><option value=#a8314a><option value=#ff7433><option value=#3e6728><option value=#c063bd></datalist>
+</section>
+<noscript>
+<p class=noscript>无法执行 JavaScript，一些功能被禁止</p>
+</noscript>
+</footer><svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true"><symbol viewBox="0 0 512 512" id="adjust"><path d="M8 256c0 136.966 111.033 248 248 248s248-111.034 248-248S392.966 8 256 8 8 119.033 8 256zm248 184V72c101.705.0 184 82.311 184 184 0 101.705-82.311 184-184 184z"/></symbol><symbol viewBox="0 0 448 512" id="hashtag"><path d="M440.667 182.109l7.143-40c1.313-7.355-4.342-14.109-11.813-14.109h-74.81l14.623-81.891C377.123 38.754 371.468 32 363.997 32h-40.632a12 12 0 00-11.813 9.891L296.175 128H197.54l14.623-81.891C213.477 38.754 207.822 32 200.35 32h-40.632a12 12 0 00-11.813 9.891L132.528 128H53.432a12 12 0 00-11.813 9.891l-7.143 40C33.163 185.246 38.818 192 46.289 192h74.81L98.242 320H19.146a12 12 0 00-11.813 9.891l-7.143 40C-1.123 377.246 4.532 384 12.003 384h74.81L72.19 465.891C70.877 473.246 76.532 480 84.003 480h40.632a12 12 0 0011.813-9.891L151.826 384h98.634l-14.623 81.891C234.523 473.246 240.178 480 247.65 480h40.632a12 12 0 0011.813-9.891L315.472 384h79.096a12 12 0 0011.813-9.891l7.143-40c1.313-7.355-4.342-14.109-11.813-14.109h-74.81l22.857-128h79.096a12 12 0 0011.813-9.891zM261.889 320h-98.634l22.857-128h98.634l-22.857 128z"/></symbol><symbol viewBox="0 0 320 512" id="caret-down"><path d="M31.3 192h257.3c17.8.0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3.0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"/></symbol></svg>
+</body>
+</html>
